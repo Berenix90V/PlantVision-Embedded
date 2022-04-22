@@ -7,10 +7,17 @@ load('api_adc.js');
 load('api_timer.js');
 load('api_sys.js');
 load('api_dht.js');
+load('api_http.js');
 
+//light pin configuration
 let light_pin = 34;
+// enable the pin to ADC: return 1 if success 0 otherwise
+ADC.enable(light_pin);
+
+// temperature and humidity pin configuration
 let temperature_humidity_pin = 13;
 let dht = DHT.create(temperature_humidity_pin, DHT.DHT11);
+
 let led = Cfg.get('board.led1.pin');              // Built-in LED GPIO number
 let onhi = Cfg.get('board.led1.active_high');     // LED on when high?
 let state = {on: false, uptime: 0, light:0.0, temperature:0.0, humidity:0.0};  // Device state
@@ -30,9 +37,9 @@ GPIO.set_mode(light_pin, GPIO.MODE_INPUT);
 GPIO.set_mode(temperature_humidity_pin, GPIO.MODE_INPUT);
 
 Timer.set(5*1000, Timer.REPEAT, function(){
-  state.uptime = Sys.uptime();
-  state.ram_free = Sys.free_ram();
-  state.light = ADC.read(light_pin)/4096; // 2667-4095
+  //state.uptime = Sys.uptime();
+  //state.ram_free = Sys.free_ram();
+  state.light = ADC.read(light_pin)*100/4096; // 2667-4095
   state.temperature = dht.getTemp();
   state.humidity = dht.getHumidity();
   print(JSON.stringify(state));

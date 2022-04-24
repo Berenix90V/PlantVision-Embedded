@@ -8,8 +8,12 @@ modules_version: ${mos.version}
 mongoose_os_version: ${mos.version}
 
 config_schema:
-  - ["mqtt.server", "mqtt.eclipseprojects.io:1883"]
-  - ["i2c.enable", true]
+  - ["plants.backend", "s", "http://192.168.1.126:5000", {title: "Backend ip address"}]
+  - ["plants.user", "s", "Franco", {title: "username"}]
+  - ["plants.hub", "s", "Window", {title: "hub"}]
+  - ["provision.btn.pin", "i", -10, {title: "Remove reset"}]
+  - ["provision.btn.hold_ms", "i", -10, {title: "Remove reset"}]
+  - ["provision.stable_state", "i", 0, {title: "Max provision"}]
 
 tags:
   - js
